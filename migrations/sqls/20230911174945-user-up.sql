@@ -2,10 +2,10 @@
 
 
 CREATE TABLE users (
-    user_id SERIAL PRIMARY KEY,
-    user_name varchar(100)  UNIQUE,
-    first_name varchar(100),
-    last_name varchar(100),
+    id SERIAL PRIMARY KEY,
+    username varchar(100)  UNIQUE,
+    firstname varchar(100),
+    lastname varchar(100),
     email varchar(100),
     password varchar(60),
     created_at timestamptz DEFAULT NOW(),
