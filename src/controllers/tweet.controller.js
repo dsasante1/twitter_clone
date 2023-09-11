@@ -1,35 +1,35 @@
-const BookService = require('../services/book.service');
+const TweetService = require('../services/tweet.service');
 
 /**
- * Controller function to add new book
+ * Controller function to add new tweet
  * @param {*} req
  * @param {*} res
  * @param {*} next
- * @returns {JSON} - A JSON response containing the books detail
+ * @returns {JSON} - A JSON response containing the tweets detail
  */
-const createBook = async (req, res, next) => {
+const createTweet = async (req, res, next) => {
     try {
-        const result = await BookService.addNewBook(req.body);
+        const result = await TweetService.addNewTweet(req.body);
         return res.status(result.code).json(result)
     } catch (error) {
         next(error)
     }
 }
 
-const fetchAllBooks = async (req, res, next) => {
+const fetchAllTweets = async (req, res, next) => {
     try {
-        const result = await BookService.retrieveAllBooks();
+        const result = await TweetService.retrieveAllTweets();
         return res.status(result.code).json(result)
     } catch (error) {
         next(error)
     }
 }
 
-const fetchSingleBook = async (req, res, next) => {
+const fetchSingleTweet = async (req, res, next) => {
     try {
         const { title } = req.body
 
-        const result = await BookService.retrieveSingleBook(title);
+        const result = await TweetService.retrieveSingleTweet(title);
         return res.status(result.code).json(result)
     } catch (error) {
         next(error)
@@ -40,10 +40,10 @@ const fetchSingleBook = async (req, res, next) => {
 //todo: implement delete and
 //update from the database
 
-const updateBook = async (req, res, next) => {
+const updateTweet = async (req, res, next) => {
     try {
         const {title, author} = req.body
-        const result = await BookService.updateABook(title, author)
+        const result = await TweetService.updateATweet(title, author)
         return res.status(result.code).json(result)
 
     }catch(error){
@@ -52,10 +52,10 @@ const updateBook = async (req, res, next) => {
 }
 
 
-const deleteBook = async (req, res, next) => {
+const deleteTweet = async (req, res, next) => {
     try {
         const {title} = req.body
-        const result = await BookService.deleteABook(title)
+        const result = await TweetService.deleteATweet(title)
         return res.status(result.code).json(result)
     }catch(error){
         next(error)
@@ -63,11 +63,11 @@ const deleteBook = async (req, res, next) => {
 }
 
 module.exports = {
-    createBook,
-    fetchAllBooks,
-    fetchSingleBook,
-    updateBook,
-    deleteBook
+    createTweet,
+    fetchAllTweets,
+    fetchSingleTweet,
+    updateTweet,
+    deleteTweet
 
 }
 

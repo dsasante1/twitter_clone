@@ -1,31 +1,31 @@
 /**
- * Add new book
+ * Add new tweet
  */
-const addBook = `
-    INSERT INTO books(
+const addTweet = `
+    INSERT INTO tweets(
         title,
         author,
         published_at
     ) VALUES ($1,$2,$3) RETURNING id, title, user_id, author, published_at, created_at
 `;
 
-const getBookByTitle = `
-        SELECT id, title, author, user_id FROM books WHERE title=$1
+const getTweetByTitle = `
+        SELECT id, title, author, user_id FROM tweets WHERE title=$1
 `;
 
-const getAllBooks = `
-        SELECT * FROM books
+const getAllTweets = `
+        SELECT * FROM tweets
 `
 
-const getSingleBook = `
+const getSingleTweet = `
         SELECT id, title, author, user_id, published_at, created_at
-        FROM books WHERE title=$1
+        FROM tweets WHERE title=$1
 `
 
 
 
-const updateBook = `
-        UPDATE books
+const updateTweet = `
+        UPDATE tweets
         SET author=$2
         WHERE title=$1  RETURNING id, title, user_id, author, published_at, created_at
 
@@ -33,20 +33,20 @@ const updateBook = `
 `
 
 
-const deleteBook = `
-        DELETE FROM books WHERE title=$1 RETURNING id, title, user_id, author, published_at, created_at
+const deleteTweet = `
+        DELETE FROM tweets WHERE title=$1 RETURNING id, title, user_id, author, published_at, created_at
 `
 
 
 
 
 module.exports = {
-    addBook,
-    getBookByTitle,
-    getAllBooks,
-    getSingleBook,
-    updateBook,
-    deleteBook
+    addTweet,
+    getTweetByTitle,
+    getAllTweets,
+    getSingleTweet,
+    updateTweet,
+    deleteTweet
 
 }
 
