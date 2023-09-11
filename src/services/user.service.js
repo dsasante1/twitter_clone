@@ -1,4 +1,4 @@
-const { addUser, findUserByUsername, fetchAllUsers, fetchUserById, createPost, findUserByEmail} = require('../queries/user');
+const { addUser, findUserByUsername, fetchAllUsers, fetchUserById, changeLogInStatus, defaultLogInStatus, findUserByEmail} = require('../queries/user');
 const { runQuery } = require('../config/database.config')
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -45,7 +45,7 @@ const loginUser = async (body) => {
 
     // Check if that user exists inside the db
     const result = await runQuery(findUserByEmail, [email]);
-
+ 
     console.log(result)
 
     if (result.length === 0) {
@@ -80,6 +80,19 @@ const loginUser = async (body) => {
         email,
 
     }, config.JWT_SECRET_KEY, options);
+
+    console.log(token)
+
+    // if authentication was a sucess change loggedIn status
+    if (token){
+        runQuery(changeLogInStatus, [id]);
+
+        setTimeout(() => {
+            runQuery(defaultLogInStatus, [id])
+          }, 9000);
+        
+        
+    }
     return {
         status: 'success',
         message: 'User login successfully',
@@ -92,6 +105,8 @@ const loginUser = async (body) => {
         }
     }
 }
+
+
 
 
 

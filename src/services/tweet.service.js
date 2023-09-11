@@ -1,26 +1,30 @@
-const { addTweet, getTweetByTitle, getAllTweets, getSingleTweet, updateTweet, deleteTweet } = require('../queries/tweet');
+const { addTweet, getTweetById, getTweetByUserId, getAllTweets, updateTweet, deleteTweet, loginStatus } = require('../queries/tweet');
 const { runQuery } = require('../config/database.config');
 
 /**
  * Add new tweet
  */
 const addNewTweet = async (body) => {
-    const { title, author } = body;
 
-    // Check if tweet already exists
-    const tweet = await runQuery(getTweetByTitle, [title])
-    console.log(tweet)
-    if (tweet.length > 0) {
+    const { title, useId, tweet } = body;
+
+
+    const [{loggedin}]  = await runQuery(loginStatus, [useId])
+
+    console.log(loggedin)
+
+    if(loggedin == false){
         throw {
-            code: 409,
+            code: 403,
             status: 'error',
-            message: 'Tweet already exist',
+            message: 'Log In to tweet',
             data: null
         }
     }
 
-    const published_at = new Date();
-    const result = await runQuery(addTweet, [title, author, published_at])
+    
+
+    const result = await runQuery(addTweet, [title, tweet, useId])
     return {
         code: 201,
         status: 'success',
@@ -29,29 +33,41 @@ const addNewTweet = async (body) => {
     }
 }
 
-/**
- * Get all books
- */
+
+
+
+//Get all tweets
+
 const retrieveAllTweets = async () => {
     const data = await runQuery(getAllTweets);
     return {
         code: 200,
         status: 'success',
         message: 'Tweets fetched successfully',
-        data
+        data: data[0]
     }
 }
 
-/**
- * Get Single Tweet
- */
-const retrieveSingleTweet = async (title) => {
-    const result = await runQuery(getSingleTweet, [title]);
+
+ //Get  user Tweets
+ 
+const fetchtUserTweets = async (useId) => {
+
+    const result = await runQuery(getTweetByUserId , [useId]);
+    
+    if (result.length === 0) {
+        throw {
+            code: 409,
+            status: 'error',
+            message: 'twitter user has no tweets',
+            data: null
+        }
+    }
 
     return {
         code: 200,
         status: 'success',
-        message: 'tweet fetched successfully',
+        message: 'tweets fetched successfully',
         data: result[0]
     }
 }
@@ -64,14 +80,12 @@ const retrieveSingleTweet = async (title) => {
 //update a tweet
 // delete a tweet
 
-const  updateATweet = async (title, author) => {
-
-    // const { title, author } = body;
+const  updateATweet = async (tweet, useId) => {
 
     //tweet exists
-    const tweet = await runQuery(getTweetByTitle, [title])
+    const fetchedTweets = await runQuery(getTweetByUserId, [useId])
 
-    if (tweet.length === 0) {
+    if (fetchedTweets.length === 0) {
         throw {
             code: 409,
             status: 'error',
@@ -80,24 +94,20 @@ const  updateATweet = async (title, author) => {
         }
     }
 
-    const result = await runQuery(updateTweet, [title, author]);
+    const result = await runQuery(updateTweet, [tweet, useId]);
     return {
         code: 200,
         status: 'success',
         message: `tweet updated successfully`,
-        data: result
+        data: result[0]
     }
 }
 
 
-const deleteATweet = async (title) => {
-
-    // const { title } = body;
-
-    console.log(title)
+const deleteATweet = async (useId) => {
 
 
-    const tweet = await runQuery(getTweetByTitle, [title])
+    const tweet = await runQuery(getTweetByUserId, [useId])
 
     if (tweet.length === 0) {
         throw {
@@ -108,7 +118,7 @@ const deleteATweet = async (title) => {
         }
     }
 
-    const result = await runQuery(deleteTweet, [title]);
+    const result = await runQuery(deleteTweet, [useId]);
     return {
         code: 200,
         status: 'success',
@@ -123,7 +133,7 @@ const deleteATweet = async (title) => {
 module.exports = {
     addNewTweet,
     retrieveAllTweets,
-    retrieveSingleTweet,
+    fetchtUserTweets,
     updateATweet,
     deleteATweet
 }

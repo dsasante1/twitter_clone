@@ -27,20 +27,34 @@ const findUserByEmail = `
 
 
 
-// * fetch all users - username, firstName and lastName
+// fetch all users - username, firstName and lastName
 const fetchAllUsers =  `SELECT username, firstname, lastname FROM users`
 
 
-// * fetch a single user by id
+// fetch a single user by id
 const fetchUserById =  `SELECT * FROM users WHERE id=$1`
 
 
-// * create a post (protect route) (logged in user's id)
+// create a post (protect route) (logged in user's id)
 const createPost = `INSERT INTO tweets (
   title,
   tweet,
   useId,
 )VALUES ($1,$2,$3) RETURNING title, tweet, useid;`
+
+
+// logIn Status
+const changeLogInStatus =  `
+        UPDATE users
+        SET loggedIn=TRUE
+        WHERE id=$1
+`
+
+const defaultLogInStatus =  `
+        UPDATE users
+        SET loggedIn=FALSE
+        WHERE id=$1
+`
 
 
 
@@ -51,6 +65,8 @@ module.exports = {
     fetchAllUsers,
     fetchUserById,
     createPost,
-    findUserByEmail
+    findUserByEmail,
+    changeLogInStatus,
+    defaultLogInStatus
 
 }

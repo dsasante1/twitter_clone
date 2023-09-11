@@ -1,11 +1,7 @@
 const TweetService = require('../services/tweet.service');
 
-/**
+/*
  * Controller function to add new tweet
- * @param {*} req
- * @param {*} res
- * @param {*} next
- * @returns {JSON} - A JSON response containing the tweets detail
  */
 const createTweet = async (req, res, next) => {
     try {
@@ -25,11 +21,11 @@ const fetchAllTweets = async (req, res, next) => {
     }
 }
 
-const fetchSingleTweet = async (req, res, next) => {
+const getUserTweets = async (req, res, next) => {
     try {
-        const { title } = req.body
+        const { useId } = req.body
 
-        const result = await TweetService.retrieveSingleTweet(title);
+        const result = await TweetService.retrieveSingleTweet(useId);
         return res.status(result.code).json(result)
     } catch (error) {
         next(error)
@@ -42,8 +38,8 @@ const fetchSingleTweet = async (req, res, next) => {
 
 const updateTweet = async (req, res, next) => {
     try {
-        const {title, author} = req.body
-        const result = await TweetService.updateATweet(title, author)
+        const {tweet, useId} = req.body
+        const result = await TweetService.updateATweet(tweet, useId)
         return res.status(result.code).json(result)
 
     }catch(error){
@@ -54,8 +50,8 @@ const updateTweet = async (req, res, next) => {
 
 const deleteTweet = async (req, res, next) => {
     try {
-        const {title} = req.body
-        const result = await TweetService.deleteATweet(title)
+        const {useId} = req.body
+        const result = await TweetService.deleteATweet(useId)
         return res.status(result.code).json(result)
     }catch(error){
         next(error)
@@ -65,7 +61,7 @@ const deleteTweet = async (req, res, next) => {
 module.exports = {
     createTweet,
     fetchAllTweets,
-    fetchSingleTweet,
+    getUserTweets,
     updateTweet,
     deleteTweet
 

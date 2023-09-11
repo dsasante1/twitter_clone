@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.post('/', TweetController.createTweet);
 router.get('/', TweetController.fetchAllTweets);
-router.get('/gettweet/', TweetController.fetchSingleTweet);
+router.get('/tweet/', TweetController.getUserTweets);
 router.put('/updatetweet/', TweetController.updateTweet);
 router.delete('/deletetweet/', TweetController.deleteTweet);
 
