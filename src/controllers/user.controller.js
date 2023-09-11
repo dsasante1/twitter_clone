@@ -1,12 +1,8 @@
 const UserService = require('../services/user.service');
 
-/**
- * Controller creating a new user
- * @param {*} req
- * @param {*} res
- * @param {*} next
- * @returns JSON object as response data
- */
+
+// Controller create a new user
+
 const createUser = async (req, res, next) => {
     try {
         const response = await UserService.createUser(req.body);
