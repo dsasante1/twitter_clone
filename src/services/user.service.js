@@ -89,7 +89,7 @@ const loginUser = async (body) => {
 
         setTimeout(() => {
             runQuery(defaultLogInStatus, [id])
-          }, 9000);
+          }, 30000);
         
         
     }

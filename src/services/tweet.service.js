@@ -97,11 +97,11 @@ const  updateATweet = async (newTweet, tweetId) => {
 
 
     //get the userId from the tweet id
-    const [{ userId }] = await runQuery(msgTweeter, [tweetId])
+    const [{useid}] = await runQuery(msgTweeter, [tweetId])
     
-    
+
     // is the user logged in 
-    const [{ loggedin }]  = await runQuery(loginStatus, [userId])
+    const [{loggedin}]  = await runQuery(loginStatus, [useid])
 
     if(loggedin == false){
         throw {
@@ -143,31 +143,33 @@ const deleteATweet = async (tweetId) => {
 
 
     //get the userId from the tweet id
-    const [{ userId }] = await runQuery(msgTweeter, [tweetId])
+    const [{useid}] = await runQuery(msgTweeter, [tweetId])
     
-    
+
     // is the user logged in 
-    const [{ loggedin }]  = await runQuery(loginStatus, [userId])
+    const [{loggedin}]  = await runQuery(loginStatus, [useid])
+
+    //console.log('service login', loggedin)
 
     if(loggedin == false){
         throw {
             code: 403,
             status: 'error',
-            message: 'Log In to update tweet',
+            message: 'Log In to delete tweet',
             data: null
         }
     }
 
-    // const tweet = await runQuery(getTweetByUserId, [userId])
+    const tweet = await runQuery(getTweetByUserId, [useid])
 
-    // if (tweet.length === 0) {
-    //     throw {
-    //         code: 409,
-    //         status: 'error',
-    //         message: 'cannot delete tweet. it does not exist',
-    //         data: null
-    //     }
-    // }
+    if (tweet.length === 0) {
+        throw {
+            code: 409,
+            status: 'error',
+            message: 'cannot delete tweet. it does not exist',
+            data: null
+        }
+    }
 
     const result = await runQuery(deleteTweet, [tweetId]);
     return {
