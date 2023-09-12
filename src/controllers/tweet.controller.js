@@ -38,8 +38,8 @@ const getUserTweets = async (req, res, next) => {
 
 const updateTweet = async (req, res, next) => {
     try {
-        const {tweet, useId} = req.body
-        const result = await TweetService.updateATweet(tweet, useId)
+        const { tweet, id } = req.body
+        const result = await TweetService.updateATweet(tweet, id)
         return res.status(result.code).json(result)
 
     }catch(error){
@@ -50,8 +50,8 @@ const updateTweet = async (req, res, next) => {
 
 const deleteTweet = async (req, res, next) => {
     try {
-        const {useId} = req.body
-        const result = await TweetService.deleteATweet(useId)
+        const { id } = req.body
+        const result = await TweetService.deleteATweet(id)
         return res.status(result.code).json(result)
     }catch(error){
         next(error)

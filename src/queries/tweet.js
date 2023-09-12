@@ -9,9 +9,17 @@ const addTweet = `
     ) VALUES ($1,$2,$3) RETURNING id, title, useId, tweet,  created_at
 `;
 
+
+
 const getTweetByUserId = `
         SELECT id, title, tweet, useId FROM tweets WHERE useId=$1
 `;
+
+
+//who made that tweet
+const msgTweeter  = `SELECT useId FROM tweets WHERE id=$1`
+
+
 
 
 const getTweetById = `
@@ -33,14 +41,14 @@ const getSingleTweet = `
 const updateTweet = `
         UPDATE tweets
         SET tweet=$2
-        WHERE useId=$1  RETURNING id, title, useId, tweet,  created_at
+        WHERE id=$1  RETURNING id, title, useId, tweet,  created_at
 
 
 `
 
 
 const deleteTweet = `
-        DELETE * FROM tweets WHERE useId=$1
+        DELETE * FROM tweets WHERE id=$1
 `
 
 const loginStatus = `
@@ -57,7 +65,8 @@ module.exports = {
     deleteTweet,
     getTweetById,
     getTweetByUserId,
-    loginStatus  
+    loginStatus,
+    msgTweeter   
 
 }
 
