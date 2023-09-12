@@ -1,4 +1,14 @@
-const { addTweet, getTweetById, getTweetByUserId, getAllTweets, updateTweet, deleteTweet, loginStatus, msgTweeter } = require('../queries/tweet');
+const { 
+    addTweet, 
+    getTweetById,
+    getTweetByUserId,
+    getAllTweets, 
+    updateTweet,
+    deleteTweet, 
+    loginStatus,
+    msgTweeter
+     } = require('../queries/tweet');
+
 const { runQuery } = require('../config/database.config');
 
 

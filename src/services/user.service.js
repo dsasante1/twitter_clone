@@ -1,4 +1,12 @@
-const { addUser, findUserByUsername, fetchAllUsers, fetchUserById, changeLogInStatus, defaultLogInStatus, findUserByEmail} = require('../queries/user');
+const { addUser, 
+    findUserByUsername, 
+    fetchAllUsers, 
+    fetchUserById, 
+    changeLogInStatus, 
+    defaultLogInStatus, 
+    findUserByEmail
+} = require('../queries/user');
+
 const { runQuery } = require('../config/database.config')
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
